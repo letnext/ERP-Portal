@@ -76,6 +76,58 @@ const Attendance = () => {
     }
   };
 
+  // ✅ Edit Employee (Backend)
+  const handleEditEmployee = async (oldName) => {
+    const { value: newName } = await Swal.fire({
+      title: `Edit Employee`,
+      input: "text",
+      inputLabel: "Enter new employee name",
+      inputValue: oldName,
+      showCancelButton: true,
+      confirmButtonText: "Save",
+      preConfirm: (value) => {
+        if (!value.trim()) {
+          Swal.showValidationMessage("Name cannot be empty");
+        }
+        return value.trim();
+      },
+    });
+
+    if (!newName || newName === oldName) return;
+
+    try {
+      const res = await fetch(`${BASE_URL}/api/attendance/staffs/${oldName}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ newName }),
+      });
+
+      if (res.ok) {
+        const updatedEmployees = employees.map((emp) =>
+          emp === oldName ? newName : emp
+        );
+
+        // update attendance data
+        const updatedAttendance = { ...attendanceData };
+        for (const date in updatedAttendance) {
+          if (updatedAttendance[date][oldName]) {
+            updatedAttendance[date][newName] = updatedAttendance[date][oldName];
+            delete updatedAttendance[date][oldName];
+          }
+        }
+
+        setEmployees(updatedEmployees);
+        setAttendanceData(updatedAttendance);
+
+        Swal.fire("Updated!", "Employee name updated successfully.", "success");
+      } else {
+        Swal.fire("Error", "Failed to update employee", "error");
+      }
+    } catch (err) {
+      Swal.fire("Error", "Error updating employee", "error");
+    }
+  };
+
   // ✅ Delete Employee (Backend)
   const handleDeleteEmployee = async (name) => {
     const confirm = await Swal.fire({
@@ -182,9 +234,16 @@ const Attendance = () => {
 
   // ✅ Count Summary
   const getSummary = (dayData) => {
-    const summary = { Present: 0, Absent: 0, Training: 0, "Half Day": 0, Holiday: 0 };
+    const summary = {
+      Present: 0,
+      Absent: 0,
+      Training: 0,
+      "Half Day": 0,
+      Holiday: 0,
+    };
     Object.values(dayData || {}).forEach((rec) => {
-      if (rec.status && summary[rec.status] !== undefined) summary[rec.status]++;
+      if (rec.status && summary[rec.status] !== undefined)
+        summary[rec.status]++;
     });
     return summary;
   };
@@ -216,7 +275,6 @@ const Attendance = () => {
             Reason: dayData[emp].reason || "-",
           });
         }
-        // add daily summary row
         const sum = getSummary(dayData);
         rows.push({
           Date: date,
@@ -343,9 +401,7 @@ const Attendance = () => {
 
       <div className="action-buttons">
         <button onClick={handlePrint}>🖨️ Print</button>
-        <button onClick={() => downloadExcel("monthly")}>
-          ⬇️ Monthly Excel
-        </button>
+        <button onClick={() => downloadExcel("monthly")}>⬇️ Monthly Excel</button>
         <button onClick={() => downloadExcel("yearly")}>📊 Yearly Excel</button>
       </div>
 
@@ -384,7 +440,9 @@ const Attendance = () => {
                   <td>
                     <select
                       value={record.status || ""}
-                      onChange={(e) => handleStatusChange(name, e.target.value)}
+                      onChange={(e) =>
+                        handleStatusChange(name, e.target.value)
+                      }
                       disabled={!selectedDate}
                     >
                       <option value="">Select</option>
@@ -403,11 +461,19 @@ const Attendance = () => {
                         type="text"
                         placeholder="Enter reason"
                         value={record.reason || ""}
-                        onChange={(e) => handleReasonChange(name, e.target.value)}
+                        onChange={(e) =>
+                          handleReasonChange(name, e.target.value)
+                        }
                       />
                     )}
                   </td>
                   <td>
+                    <button
+                      className="edit-btn"
+                      onClick={() => handleEditEmployee(name)}
+                    >
+                      Edit
+                    </button>
                     <button
                       className="delete-btn"
                       onClick={() => handleDeleteEmployee(name)}
@@ -422,13 +488,14 @@ const Attendance = () => {
         </tbody>
       </table>
 
-      {/* ✅ Daily summary display */}
       {selectedDate && (
         <div className="summary">
           <h3>Summary for {selectedDate}</h3>
           <p>
-            Present: <b>{summaryData.Present}</b> | Absent: <b>{summaryData.Absent}</b> | Training:{" "}
-            <b>{summaryData.Training}</b> | Half Day: <b>{summaryData["Half Day"]}</b> | Holiday:{" "}
+            Present: <b>{summaryData.Present}</b> | Absent:{" "}
+            <b>{summaryData.Absent}</b> | Training:{" "}
+            <b>{summaryData.Training}</b> | Half Day:{" "}
+            <b>{summaryData["Half Day"]}</b> | Holiday:{" "}
             <b>{summaryData.Holiday}</b>
           </p>
         </div>
