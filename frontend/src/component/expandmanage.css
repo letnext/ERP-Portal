@@ -1,0 +1,928 @@
+/* =======================================================
+   GLOBAL STYLES
+======================================================= */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  height: 100%;
+  font-family: "Poppins", sans-serif;
+  background-color: #f5f6fa;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =======================================================
+   MAIN CONTAINER
+======================================================= */
+.expand-container {
+  max-width: 1200px;
+  margin: 30px auto;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  animation: slideInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes slideInUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px) scale(0.98); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0) scale(1); 
+  }
+}
+
+/* =======================================================
+   HEADING
+======================================================= */
+.expand-heading {
+  text-align: center;
+  color: #222;
+  margin-bottom: 30px;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  position: relative;
+  animation: fadeInScale 0.8s ease-out 0.2s both;
+}
+
+.expand-heading::after {
+  content: "";
+  display: block;
+  width: 100px;
+  height: 4px;
+  background: #007bff;
+  margin: 10px auto 0;
+  border-radius: 2px;
+  animation: expandWidth 0.8s ease-out 0.5s both;
+}
+
+/* =======================================================
+   ADD FORM
+======================================================= */
+.add-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 25px;
+  animation: formSlideIn 0.7s ease-out 0.3s both;
+}
+
+.add-form input {
+  flex: 1;
+  padding: 12px 14px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid #dcdcdc;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateY(10px);
+  opacity: 0;
+  animation: inputSlideUp 0.6s ease-out forwards;
+}
+
+.add-form input:nth-child(1) { animation-delay: 0.4s; }
+.add-form input:nth-child(2) { animation-delay: 0.5s; }
+.add-form input:nth-child(3) { animation-delay: 0.6s; }
+.add-form input:nth-child(4) { animation-delay: 0.7s; }
+
+.add-form input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.add-btn {
+  padding: 12px 22px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+  animation: buttonBounceIn 0.6s ease-out 0.8s both;
+}
+
+.add-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s;
+}
+
+.add-btn:hover::before {
+  left: 100%;
+}
+
+.add-btn:hover {
+  background-color: #218838;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+}
+
+/* =======================================================
+   UTILITY BAR (Search / Filter / View / Print)
+======================================================= */
+.utility-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+  animation: fadeInUp 0.6s ease-out 0.4s both;
+}
+
+.utility-bar .button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.search-box {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+  transition: all 0.4s ease;
+  animation: slideInLeft 0.6s ease-out 0.5s both;
+}
+
+.search-box:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Filter Buttons */
+.filter-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  animation: fadeInUp 0.6s ease-out 0.6s both;
+}
+
+.filter-buttons button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  background-color: #e9ecef;
+  color: #333;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+
+.filter-buttons button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s;
+}
+
+.filter-buttons button:hover::before {
+  left: 100%;
+}
+
+.filter-buttons button:hover {
+  background-color: #dee2e6;
+  transform: translateY(-2px);
+}
+
+.filter-buttons .active {
+  background-color: #007bff;
+  color: #fff;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+/* View Toggle */
+.view-toggle {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  animation: fadeInUp 0.6s ease-out 0.7s both;
+}
+
+.view-toggle button {
+  padding: 10px 18px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.view-toggle button:hover {
+  transform: translateY(-2px);
+}
+
+.view-toggle button.active {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+/* Print Button */
+.print-btn {
+  padding: 12px 20px;
+  background-color: #6c757d;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+  animation: slideInRight 0.6s ease-out 0.8s both;
+}
+
+.print-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s;
+}
+
+.print-btn:hover::before {
+  left: 100%;
+}
+
+.print-btn:hover {
+  background-color: #5a6268;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(108, 117, 125, 0.3);
+}
+
+/* =======================================================
+   TOTAL EXPENDITURE DISPLAY
+======================================================= */
+.total-expenditure {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #333;
+  text-align: right;
+  margin-bottom: 20px;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+  animation: fadeInScale 0.6s ease-out 0.9s both;
+  transition: all 0.3s ease;
+}
+
+.total-expenditure:hover {
+  transform: translateX(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.total-expenditure span {
+  color: #dc3545;
+  animation: moneyPulse 2s infinite;
+}
+
+@keyframes moneyPulse {
+  0%, 100% { 
+    transform: scale(1); 
+    color: #dc3545;
+  }
+  50% { 
+    transform: scale(1.05); 
+    color: #c82333;
+  }
+}
+
+/* =======================================================
+   TABLE SECTION
+======================================================= */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  animation: fadeIn 0.8s ease-out 0.5s both;
+}
+
+.expand-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+  animation: tableSlideIn 0.8s ease-out 0.6s both;
+}
+
+.expand-table th {
+  padding: 14px 10px;
+  text-align: left;
+  border-bottom: 2px solid #007bff;
+  font-size: 13px;
+  background-color: #f8f9fa;
+  color: #444;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  animation: thSlideIn 0.6s ease-out both;
+}
+
+.expand-table th:nth-child(1) { animation-delay: 0.7s; }
+.expand-table th:nth-child(2) { animation-delay: 0.8s; }
+.expand-table th:nth-child(3) { animation-delay: 0.9s; }
+.expand-table th:nth-child(4) { animation-delay: 1.0s; }
+.expand-table th:nth-child(5) { animation-delay: 1.1s; }
+
+.expand-table td {
+  padding: 14px 10px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  font-size: 15px;
+  animation: tdSlideIn 0.5s ease-out both;
+}
+
+.expand-table tbody tr {
+  opacity: 0;
+  animation: rowFadeIn 0.6s ease-out forwards;
+}
+
+.expand-table tbody tr:nth-child(1) { animation-delay: 0.8s; }
+.expand-table tbody tr:nth-child(2) { animation-delay: 0.9s; }
+.expand-table tbody tr:nth-child(3) { animation-delay: 1.0s; }
+.expand-table tbody tr:nth-child(4) { animation-delay: 1.1s; }
+.expand-table tbody tr:nth-child(5) { animation-delay: 1.2s; }
+
+.expand-table tr:hover {
+  background-color: #f1f1f1;
+  transform: scale(1.01);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.1);
+}
+
+.edit-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  animation: inputFocus 0.5s ease-out;
+}
+
+.edit-input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  transform: scale(1.02);
+}
+
+/* =======================================================
+   ACTION BUTTONS
+======================================================= */
+.action-buttons {
+  white-space: nowrap;
+}
+
+.action-buttons button {
+  padding: 8px 12px;
+  margin-right: 6px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 500;
+  font-size: 13px;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+  animation: buttonPulse 0.6s ease-out both;
+}
+
+.action-buttons button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.action-buttons button:hover::after {
+  width: 100px;
+  height: 100px;
+}
+
+.edit-btn { 
+  background-color: #ffc107; 
+  animation-delay: 1.3s;
+}
+.edit-btn:hover { 
+  background-color: #e0a800; 
+  transform: translateY(-2px) scale(1.1);
+  box-shadow: 0 6px 15px rgba(255, 193, 7, 0.4);
+}
+
+.delete-btn { 
+  background-color: #dc3545; 
+  animation-delay: 1.4s;
+}
+.delete-btn:hover { 
+  background-color: #c82333; 
+  transform: translateY(-2px) scale(1.1);
+  box-shadow: 0 6px 15px rgba(220, 53, 69, 0.4);
+}
+
+.save-btn { 
+  background-color: #28a745; 
+  animation-delay: 1.5s;
+}
+.save-btn:hover { 
+  background-color: #218838; 
+  transform: translateY(-2px) scale(1.1);
+  box-shadow: 0 6px 15px rgba(40, 167, 69, 0.4);
+}
+
+.cancel-btn { 
+  background-color: #6c757d; 
+  animation-delay: 1.6s;
+}
+.cancel-btn:hover { 
+  background-color: #5a6268; 
+  transform: translateY(-2px) scale(1.1);
+  box-shadow: 0 6px 15px rgba(108, 117, 125, 0.4);
+}
+
+.no-data {
+  text-align: center;
+  color: #999;
+  padding: 25px 10px;
+  font-size: 16px;
+  animation: fadeInScale 1s ease-out 0.7s both;
+}
+
+.no-data::before {
+  content: "💰";
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 15px;
+  animation: bounce 2s infinite;
+}
+
+/* =======================================================
+   CHART SECTION
+======================================================= */
+.chart-section {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 25px;
+  animation: chartSlideIn 0.8s ease-out 0.7s both;
+}
+
+@keyframes chartSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* =======================================================
+   ANIMATION KEYFRAMES
+======================================================= */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes expandWidth {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: 100px;
+    opacity: 1;
+  }
+}
+
+@keyframes formSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes inputSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes buttonBounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes tableSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes thSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tdSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes rowFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes buttonPulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes inputFocus {
+  from {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* =======================================================
+   SUCCESS/ERROR MESSAGES
+======================================================= */
+.success-message {
+  background: #d4edda;
+  color: #155724;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  animation: slideInRight 0.5s ease-out;
+}
+
+.error-message {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  animation: shake 0.5s ease-out;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+/* =======================================================
+   LOADING STATES
+======================================================= */
+.loading-row {
+  animation: loadingPulse 1.5s infinite;
+}
+
+@keyframes loadingPulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+/* =======================================================
+   ENTRY ANIMATIONS
+======================================================= */
+.new-expense {
+  animation: newExpenseHighlight 2s ease-out;
+}
+
+@keyframes newExpenseHighlight {
+  0% {
+    background-color: #d4edda;
+    transform: scale(0.95);
+  }
+  50% {
+    background-color: #d4edda;
+  }
+  100% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+}
+
+.updated-expense {
+  animation: updatedExpenseHighlight 2s ease-out;
+}
+
+@keyframes updatedExpenseHighlight {
+  0% {
+    background-color: #fff3cd;
+    transform: scale(0.98);
+  }
+  50% {
+    background-color: #fff3cd;
+  }
+  100% {
+    background-color: transparent;
+    transform: scale(1);
+  }
+}
+
+/* =======================================================
+   PRINT VIEW
+======================================================= */
+@media print {
+  body {
+    background-color: #fff;
+  }
+  .expand-container {
+    box-shadow: none;
+    padding: 0;
+    animation: none;
+  }
+  .expand-heading,
+  .add-form,
+  .utility-bar,
+  .total-expenditure,
+  .chart-section,
+  .no-print {
+    display: none !important;
+  }
+  .expand-table {
+    width: 100%;
+  }
+  .expand-table th, .expand-table td {
+    border: 1px solid #000;
+  }
+}
+
+/* =======================================================
+   RESPONSIVE DESIGN
+======================================================= */
+
+/* Tablets (768px and below) */
+@media (max-width: 992px) {
+  .expand-container {
+    padding: 20px;
+  }
+
+  .expand-heading {
+    font-size: 24px;
+  }
+
+  .utility-bar {
+    gap: 10px;
+  }
+
+  .filter-buttons,
+  .view-toggle {
+    justify-content: center;
+  }
+
+  .expand-table th,
+  .expand-table td {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .action-buttons button {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+}
+
+/* Mobile (600px and below) */
+@media (max-width: 600px) {
+  .add-form {
+    flex-direction: column;
+  }
+
+  .utility-bar .button-group {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .filter-buttons,
+  .view-toggle {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .view-toggle button {
+    width: 100%;
+  }
+
+  .expand-table th,
+  .expand-table td {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .action-buttons button {
+    margin: 2px 0;
+    width: 100%;
+  }
+
+  .total-expenditure {
+    text-align: center;
+    font-size: 1em;
+  }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+input[type="month"] {
+  padding: 8px 12px;
+  border: 2px solid #8b5cf6; /* soft violet border */
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #f9f9ff;
+  color: #333;
+  outline: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+input[type="month"]:hover {
+  border-color: #7c3aed;
+  background-color: #f3e8ff;
+}
+
+input[type="month"]:focus {
+  border-color: #6d28d9;
+  box-shadow: 0 0 6px rgba(109, 40, 217, 0.4);
+  background-color: #fff;
+}

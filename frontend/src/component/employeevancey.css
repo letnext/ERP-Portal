@@ -1,0 +1,639 @@
+/* =======================================================
+   EMPLOYEE VACANCY MANAGEMENT PAGE STYLES
+   ======================================================= */
+
+.vacancy-container {
+  max-width: 1100px;
+  margin: 50px auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  font-family: "Poppins", sans-serif;
+  animation: slideInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ====== Page Heading ====== */
+.vacancy-heading {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 30px;
+  position: relative;
+  animation: fadeInScale 0.8s ease-out 0.2s both;
+}
+
+.vacancy-heading::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: #007bff;
+  margin: 10px auto 0;
+  border-radius: 2px;
+  animation: expandWidth 0.8s ease-out 0.5s both;
+}
+
+/* ====== Form Section ====== */
+.vacancy-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+  animation: formSlideIn 0.7s ease-out 0.3s both;
+}
+
+.vacancy-form input,
+.vacancy-form textarea {
+  padding: 12px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateY(10px);
+  opacity: 0;
+  animation: inputSlideUp 0.6s ease-out forwards;
+}
+
+.vacancy-form input:nth-child(1) { animation-delay: 0.4s; }
+.vacancy-form input:nth-child(2) { animation-delay: 0.5s; }
+.vacancy-form input:nth-child(3) { animation-delay: 0.6s; }
+.vacancy-form textarea:nth-child(4) { animation-delay: 0.7s; }
+.vacancy-form input:nth-child(5) { animation-delay: 0.8s; }
+
+.vacancy-form input:focus,
+.vacancy-form textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.vacancy-form textarea {
+  min-height: 100px;
+  resize: vertical;
+  transition: all 0.4s ease;
+}
+
+.vacancy-form textarea:focus {
+  min-height: 120px;
+}
+
+/* ====== Button Group ====== */
+.button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 10px;
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out 0.9s both;
+}
+
+.add-vacancy-btn,
+.cancel-btn {
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+
+.add-vacancy-btn::before,
+.cancel-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s;
+}
+
+.add-vacancy-btn:hover::before,
+.cancel-btn:hover::before {
+  left: 100%;
+}
+
+.add-vacancy-btn {
+  background: #007bff;
+  color: #fff;
+  animation: buttonBounceIn 0.6s ease-out 1s both;
+}
+
+.add-vacancy-btn:hover {
+  background: #0056b3;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+}
+
+.cancel-btn {
+  background: #dc3545;
+  color: #fff;
+  animation: buttonBounceIn 0.6s ease-out 1.1s both;
+}
+
+.cancel-btn:hover {
+  background: #b02a37;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(220, 53, 69, 0.3);
+}
+
+/* ====== Table Section ====== */
+.table-container {
+  overflow-x: auto;
+  animation: fadeIn 0.8s ease-out 0.4s both;
+}
+
+.vacancy-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  animation: tableSlideIn 0.8s ease-out 0.5s both;
+}
+
+.vacancy-table thead {
+  background: #007bff;
+  color: #fff;
+}
+
+.vacancy-table th {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 2px solid #0056b3;
+  font-weight: 600;
+  animation: thSlideIn 0.6s ease-out both;
+}
+
+.vacancy-table th:nth-child(1) { animation-delay: 0.6s; }
+.vacancy-table th:nth-child(2) { animation-delay: 0.7s; }
+.vacancy-table th:nth-child(3) { animation-delay: 0.8s; }
+.vacancy-table th:nth-child(4) { animation-delay: 0.9s; }
+.vacancy-table th:nth-child(5) { animation-delay: 1.0s; }
+
+.vacancy-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  animation: tdSlideIn 0.5s ease-out both;
+}
+
+.vacancy-table tbody tr {
+  opacity: 0;
+  animation: rowFadeIn 0.6s ease-out forwards;
+}
+
+.vacancy-table tbody tr:nth-child(1) { animation-delay: 0.7s; }
+.vacancy-table tbody tr:nth-child(2) { animation-delay: 0.8s; }
+.vacancy-table tbody tr:nth-child(3) { animation-delay: 0.9s; }
+.vacancy-table tbody tr:nth-child(4) { animation-delay: 1.0s; }
+.vacancy-table tbody tr:nth-child(5) { animation-delay: 1.1s; }
+
+.vacancy-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.vacancy-table tr:hover {
+  background: #eef5ff;
+  transform: scale(1.01);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+}
+
+/* ====== Action Buttons ====== */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-btn,
+.delete-btn {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+
+.edit-btn::after,
+.delete-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.edit-btn:hover::after,
+.delete-btn:hover::after {
+  width: 100px;
+  height: 100px;
+}
+
+.edit-btn {
+  background: #ffc107;
+  color: #333;
+  animation: buttonPulse 0.6s ease-out 1.2s both;
+}
+
+.edit-btn:hover {
+  background: #e0a800;
+  transform: translateY(-2px) scale(1.08);
+  box-shadow: 0 6px 15px rgba(255, 193, 7, 0.4);
+}
+
+.delete-btn {
+  background: #dc3545;
+  color: #fff;
+  animation: buttonPulse 0.6s ease-out 1.3s both;
+}
+
+.delete-btn:hover {
+  background: #b02a37;
+  transform: translateY(-2px) scale(1.08);
+  box-shadow: 0 6px 15px rgba(220, 53, 69, 0.4);
+}
+
+/* ====== Status Indicators ====== */
+.status-indicator {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  animation: statusPulse 0.6s ease-out both;
+  transition: all 0.3s ease;
+}
+
+.status-indicator:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.status-active {
+  background: #28a745;
+  color: white;
+  animation-delay: 1s;
+}
+
+.status-inactive {
+  background: #6c757d;
+  color: white;
+  animation-delay: 1.1s;
+}
+
+.status-pending {
+  background: #ffc107;
+  color: #333;
+  animation-delay: 1.2s;
+}
+
+/* ====== Loading / No Records ====== */
+.loading,
+.no-records {
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+  padding: 20px;
+  animation: fadeInScale 1s ease-out 0.6s both;
+}
+
+.loading::before {
+  content: "⏳";
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 15px;
+  animation: spin 1.5s linear infinite;
+}
+
+.no-records::before {
+  content: "📋";
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 15px;
+  animation: bounce 2s infinite;
+}
+
+/* ====== Success/Error Messages ====== */
+.success-message {
+  background: #d4edda;
+  color: #155724;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  animation: slideInRight 0.5s ease-out;
+}
+
+.error-message {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  animation: shake 0.5s ease-out;
+}
+
+/* ====== Animation Keyframes ====== */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes expandWidth {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: 80px;
+    opacity: 1;
+  }
+}
+
+@keyframes formSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes inputSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes buttonBounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes buttonPulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes tableSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes thSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tdSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes rowFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes statusPulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-5deg);
+  }
+  50% {
+    transform: scale(1.1) rotate(2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+/* ====== Loading Animation for Table Rows ====== */
+.loading-row {
+  animation: loadingPulse 1.5s infinite;
+}
+
+@keyframes loadingPulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+/* ====== Success Check Animation ====== */
+.success-check {
+  animation: checkmark 0.5s ease-in-out;
+}
+
+@keyframes checkmark {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ====== Responsive Design ====== */
+@media (max-width: 768px) {
+  .vacancy-form {
+    padding: 15px;
+  }
+
+  .add-vacancy-btn,
+  .cancel-btn {
+    width: 100%;
+  }
+
+  .button-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .vacancy-table th,
+  .vacancy-table td {
+    font-size: 14px;
+    padding: 10px;
+  }
+  
+  .vacancy-container {
+    margin: 20px auto;
+    padding: 20px;
+    animation: slideInUp 0.6s ease-out;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

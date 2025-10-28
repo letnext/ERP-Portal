@@ -1,0 +1,495 @@
+/* ============================= */
+/* Finance Dashboard Styling     */
+/* ============================= */
+
+:root {
+  --primary-blue: #1976d2;
+  --dark-blue: #0d47a1;
+  --light-blue: #e3f2fd;
+  --accent-blue: #bbdefb;
+  --white: #ffffff;
+  --shadow-light: rgba(25, 118, 210, 0.3);
+  --shadow-dark: rgba(13, 71, 161, 0.4);
+  --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  overflow: hidden;
+}
+
+.finance-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--light-blue), var(--accent-blue));
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+/* ===== ANIMATED BACKGROUND ELEMENTS ===== */
+
+/* Floating Particles */
+.floating-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.particle {
+  position: absolute;
+  background: var(--primary-blue);
+  border-radius: 50%;
+  opacity: 0.1;
+  animation: floatParticle linear infinite;
+}
+
+.particle:nth-child(1) {
+  width: 8px;
+  height: 8px;
+  top: 10%;
+  left: 20%;
+  animation-duration: 25s;
+  animation-delay: 0s;
+}
+
+.particle:nth-child(2) {
+  width: 12px;
+  height: 12px;
+  top: 60%;
+  left: 80%;
+  animation-duration: 30s;
+  animation-delay: 5s;
+}
+
+.particle:nth-child(3) {
+  width: 6px;
+  height: 6px;
+  top: 80%;
+  left: 10%;
+  animation-duration: 35s;
+  animation-delay: 10s;
+}
+
+.particle:nth-child(4) {
+  width: 10px;
+  height: 10px;
+  top: 30%;
+  left: 90%;
+  animation-duration: 28s;
+  animation-delay: 15s;
+}
+
+/* Animated Grid Background */
+.animated-grid {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: 
+    linear-gradient(90deg, rgba(25, 118, 210, 0.05) 1px, transparent 1px),
+    linear-gradient(rgba(25, 118, 210, 0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: moveGrid 20s linear infinite;
+  z-index: 1;
+  opacity: 0.3;
+}
+
+/* Pulsing Glow Effect */
+.pulse-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(25, 118, 210, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: pulseGlow 4s ease-in-out infinite;
+  z-index: 1;
+}
+
+/* ===== MAIN CONTENT ===== */
+.finance-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  animation: contentSlideUp 1s ease-out 0.3s both;
+}
+
+.finance-heading {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--dark-blue);
+  margin-bottom: 3rem;
+  text-align: center;
+  position: relative;
+  animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+.finance-heading::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--primary-blue), transparent);
+  animation: linePulse 2s ease-in-out infinite;
+}
+
+/* Updated button container */
+.finance-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  perspective: 1000px;
+}
+
+.finance-button {
+  background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+  color: var(--white);
+  border: none;
+  padding: 18px 35px;
+  border-radius: 15px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 
+    0 8px 25px var(--shadow-light),
+    0 4px 15px var(--shadow-dark);
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  animation: buttonEntrance 0.8s ease-out both;
+}
+
+.finance-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.6s ease;
+}
+
+.finance-button:hover::before {
+  left: 100%;
+}
+
+.finance-button:hover {
+  background: linear-gradient(135deg, var(--dark-blue), var(--primary-blue));
+  transform: translateY(-8px) scale(1.05) rotateX(5deg);
+  box-shadow: 
+    0 15px 35px var(--shadow-dark),
+    0 8px 20px var(--shadow-light),
+    0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+.finance-button:active {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 5px 15px var(--shadow-dark),
+    0 3px 10px var(--shadow-light);
+}
+
+/* Individual button animations */
+.finance-button:nth-child(1) {
+  animation-delay: 0.5s;
+}
+
+.finance-button:nth-child(2) {
+  animation-delay: 0.7s;
+}
+
+.finance-button:nth-child(3) {
+  animation-delay: 0.9s;
+}
+
+/* Icon animation */
+.button-icon {
+  display: inline-block;
+  margin-right: 8px;
+  transition: transform 0.3s ease;
+}
+
+.finance-button:hover .button-icon {
+  transform: scale(1.2) rotate(10deg);
+}
+
+/* ===== ANIMATION KEYFRAMES ===== */
+
+/* Main container fade in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    background-position: 0% 50%;
+  }
+  to {
+    opacity: 1;
+    background-position: 100% 50%;
+  }
+}
+
+/* Content slide up */
+@keyframes contentSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Button entrance animation */
+@keyframes buttonEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) rotateX(45deg) scale(0.8);
+  }
+  70% {
+    transform: translateY(-5px) rotateX(0) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateX(0) scale(1);
+  }
+}
+
+/* Title glow effect */
+@keyframes titleGlow {
+  0% {
+    text-shadow: 0 0 20px rgba(13, 71, 161, 0.3);
+    letter-spacing: 1px;
+  }
+  100% {
+    text-shadow: 
+      0 0 30px rgba(13, 71, 161, 0.6),
+      0 0 60px rgba(13, 71, 161, 0.3);
+    letter-spacing: 2px;
+  }
+}
+
+/* Line pulse animation */
+@keyframes linePulse {
+  0%, 100% {
+    opacity: 0.5;
+    width: 100px;
+  }
+  50% {
+    opacity: 1;
+    width: 150px;
+    box-shadow: 0 0 15px var(--primary-blue);
+  }
+}
+
+/* Floating particles */
+@keyframes floatParticle {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.1;
+  }
+  90% {
+    opacity: 0.1;
+  }
+  100% {
+    transform: translate(100px, -100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Grid movement */
+@keyframes moveGrid {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(-20px, -10px) rotate(0.5deg);
+  }
+  50% {
+    transform: translate(-10px, -20px) rotate(-0.3deg);
+  }
+  75% {
+    transform: translate(-15px, -15px) rotate(0.2deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+/* Pulsing glow effect */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1.1);
+    filter: blur(10px);
+  }
+}
+
+/* Button ripple effect */
+.finance-button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.finance-button:active::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .finance-heading {
+    font-size: 3rem;
+  }
+  
+  .finance-buttons {
+    gap: 1.5rem;
+  }
+  
+  .finance-button {
+    padding: 16px 30px;
+    font-size: 1.1rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .finance-container {
+    padding: 20px;
+  }
+  
+  .finance-heading {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .finance-buttons {
+    flex-direction: column;
+    gap: 1.2rem;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .finance-button {
+    width: 100%;
+    padding: 16px 25px;
+    font-size: 1.1rem;
+  }
+  
+  .pulse-glow {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .finance-heading {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .finance-button {
+    padding: 14px 20px;
+    font-size: 1rem;
+  }
+  
+  .animated-grid {
+    background-size: 40px 40px;
+  }
+}
+
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+.finance-button:focus {
+  outline: 3px solid var(--dark-blue);
+  outline-offset: 2px;
+}
+
+.finance-button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ===== LOADING STATES ===== */
+.finance-button.loading {
+  position: relative;
+  color: transparent;
+}
+
+.finance-button.loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid var(--white);
+  border-radius: 50%;
+  animation: buttonSpin 1s linear infinite;
+}
+
+@keyframes buttonSpin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ===== HOVER EFFECTS FOR TOUCH DEVICES ===== */
+@media (hover: none) {
+  .finance-button:hover {
+    transform: none;
+    box-shadow: 0 8px 25px var(--shadow-light);
+  }
+  
+  .finance-button:active {
+    transform: scale(0.98);
+  }
+}
