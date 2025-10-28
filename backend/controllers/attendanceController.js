@@ -1,7 +1,6 @@
 import Attendance from "../models/Attendance.js";
 import Staff from "../models/Staff.js";
 
-// ✅ Get all staffs
 export const getAllStaffs = async (req, res) => {
   try {
     const staffs = await Staff.find();
@@ -11,12 +10,12 @@ export const getAllStaffs = async (req, res) => {
   }
 };
 
-// ✅ Add staff
 export const addStaff = async (req, res) => {
   try {
     const { name } = req.body;
     const existing = await Staff.findOne({ name });
-    if (existing) return res.status(400).json({ message: "Employee already exists" });
+    if (existing)
+      return res.status(400).json({ message: "Employee already exists" });
     const staff = new Staff({ name });
     await staff.save();
     res.status(201).json(staff);
@@ -25,7 +24,6 @@ export const addStaff = async (req, res) => {
   }
 };
 
-// ✅ Delete staff
 export const deleteStaff = async (req, res) => {
   try {
     await Staff.findOneAndDelete({ name: req.params.name });
@@ -35,7 +33,6 @@ export const deleteStaff = async (req, res) => {
   }
 };
 
-// ✅ Save attendance
 export const saveAttendance = async (req, res) => {
   try {
     const { date, employee, status, reason } = req.body;
@@ -53,7 +50,6 @@ export const saveAttendance = async (req, res) => {
   }
 };
 
-// ✅ Get all attendance
 export const getAllAttendance = async (req, res) => {
   try {
     const data = await Attendance.find();
