@@ -13,9 +13,12 @@ export const getAllStaffs = async (req, res) => {
 export const addStaff = async (req, res) => {
   try {
     const { name } = req.body;
+    if (!name) return res.status(400).json({ message: "Name is required" });
+
     const existing = await Staff.findOne({ name });
     if (existing)
       return res.status(400).json({ message: "Employee already exists" });
+
     const staff = new Staff({ name });
     await staff.save();
     res.status(201).json(staff);
@@ -24,9 +27,36 @@ export const addStaff = async (req, res) => {
   }
 };
 
+export const editStaff = async (req, res) => {
+  try {
+    const { oldName } = req.params;
+    const { newName } = req.body;
+
+    if (!newName)
+      return res.status(400).json({ message: "New name required" });
+
+    const staff = await Staff.findOneAndUpdate(
+      { name: oldName },
+      { name: newName },
+      { new: true }
+    );
+
+    if (!staff)
+      return res.status(404).json({ message: "Employee not found" });
+
+    await Attendance.updateMany({ employee: oldName }, { employee: newName });
+
+    res.json({ message: "Name updated successfully", staff });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 export const deleteStaff = async (req, res) => {
   try {
-    await Staff.findOneAndDelete({ name: req.params.name });
+    const { name } = req.params;
+    await Staff.findOneAndDelete({ name });
+    await Attendance.deleteMany({ employee: name });
     res.json({ message: "Employee deleted" });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -37,6 +67,7 @@ export const saveAttendance = async (req, res) => {
   try {
     const { date, employee, status, reason } = req.body;
     const existing = await Attendance.findOne({ date, employee });
+
     if (existing) {
       existing.status = status;
       existing.reason = reason;
@@ -44,6 +75,7 @@ export const saveAttendance = async (req, res) => {
     } else {
       await Attendance.create({ date, employee, status, reason });
     }
+
     res.status(200).json({ message: "Attendance saved" });
   } catch (err) {
     res.status(500).json({ message: err.message });
