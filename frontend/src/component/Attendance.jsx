@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import Swal from "sweetalert2";
 import "./attendance.css";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -11,6 +10,13 @@ const Attendance = () => {
   const [newEmployee, setNewEmployee] = useState("");
   const [attendanceData, setAttendanceData] = useState({});
   const [selectedDate, setSelectedDate] = useState("");
+  const [message, setMessage] = useState("");
+
+  // ✅ Show message temporarily
+  const showMessage = (msg, duration = 3000) => {
+    setMessage(msg);
+    setTimeout(() => setMessage(""), duration);
+  };
 
   // ✅ Fetch employees & attendance from backend
   useEffect(() => {
@@ -20,7 +26,7 @@ const Attendance = () => {
         const empData = await empRes.json();
 
         if (!Array.isArray(empData)) {
-          Swal.fire("Error", "Invalid employee data received", "error");
+          showMessage("Invalid employee data received");
           return;
         }
 
@@ -40,20 +46,20 @@ const Attendance = () => {
         setAttendanceData(formatted);
       } catch (err) {
         console.error("Error fetching data:", err);
-        Swal.fire("Error", "Failed to fetch data from server", "error");
+        showMessage("Failed to fetch data from server");
       }
     };
     fetchAllData();
   }, []);
 
-  // ✅ Add Employee (Backend)
+  // ✅ Add Employee
   const handleAddEmployee = async () => {
-    if (newEmployee.trim() === "") {
-      Swal.fire("Warning", "Please enter an employee name!", "warning");
+    if (!newEmployee.trim()) {
+      showMessage("Enter employee name!");
       return;
     }
     if (employees.includes(newEmployee.trim())) {
-      Swal.fire("Info", "Employee already exists!", "info");
+      showMessage("Employee already exists!");
       return;
     }
 
@@ -67,32 +73,18 @@ const Attendance = () => {
       if (res.ok) {
         setEmployees([...employees, newEmployee.trim()]);
         setNewEmployee("");
-        Swal.fire("Success", "Employee added successfully!", "success");
+        showMessage("Employee added successfully!");
       } else {
-        Swal.fire("Error", "Failed to add employee", "error");
+        showMessage("Failed to add employee");
       }
-    } catch (err) {
-      Swal.fire("Error", "Error adding employee", "error");
+    } catch {
+      showMessage("Error adding employee");
     }
   };
 
-  // ✅ Edit Employee (Backend)
+  // ✅ Edit Employee
   const handleEditEmployee = async (oldName) => {
-    const { value: newName } = await Swal.fire({
-      title: `Edit Employee`,
-      input: "text",
-      inputLabel: "Enter new employee name",
-      inputValue: oldName,
-      showCancelButton: true,
-      confirmButtonText: "Save",
-      preConfirm: (value) => {
-        if (!value.trim()) {
-          Swal.showValidationMessage("Name cannot be empty");
-        }
-        return value.trim();
-      },
-    });
-
+    const newName = prompt("Enter new employee name:", oldName);
     if (!newName || newName === oldName) return;
 
     try {
@@ -103,11 +95,9 @@ const Attendance = () => {
       });
 
       if (res.ok) {
-        const updatedEmployees = employees.map((emp) =>
-          emp === oldName ? newName : emp
+        const updatedEmployees = employees.map((n) =>
+          n === oldName ? newName : n
         );
-
-        // update attendance data
         const updatedAttendance = { ...attendanceData };
         for (const date in updatedAttendance) {
           if (updatedAttendance[date][oldName]) {
@@ -115,65 +105,51 @@ const Attendance = () => {
             delete updatedAttendance[date][oldName];
           }
         }
-
         setEmployees(updatedEmployees);
         setAttendanceData(updatedAttendance);
-
-        Swal.fire("Updated!", "Employee name updated successfully.", "success");
+        showMessage("Employee name updated!");
       } else {
-        Swal.fire("Error", "Failed to update employee", "error");
+        showMessage("Failed to update name");
       }
-    } catch (err) {
-      Swal.fire("Error", "Error updating employee", "error");
+    } catch {
+      showMessage("Error updating employee");
     }
   };
 
-  // ✅ Delete Employee (Backend)
+  // ✅ Delete Employee
   const handleDeleteEmployee = async (name) => {
-    const confirm = await Swal.fire({
-      title: `Delete ${name}?`,
-      text: "This action cannot be undone.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-    });
-
-    if (!confirm.isConfirmed) return;
+    const confirmDelete = window.confirm(`Delete ${name}? This cannot be undone.`);
+    if (!confirmDelete) return;
 
     try {
       await fetch(`${BASE_URL}/api/attendance/staffs/${name}`, {
         method: "DELETE",
       });
-      const updatedEmployees = employees.filter((emp) => emp !== name);
+      const updatedEmployees = employees.filter((e) => e !== name);
       const updatedAttendance = { ...attendanceData };
-      for (const date in updatedAttendance) {
-        delete updatedAttendance[date][name];
-      }
+      for (const d in updatedAttendance) delete updatedAttendance[d][name];
       setEmployees(updatedEmployees);
       setAttendanceData(updatedAttendance);
-      Swal.fire("Deleted!", `${name} has been removed.`, "success");
-    } catch (err) {
-      Swal.fire("Error", "Error deleting employee", "error");
+      showMessage(`${name} removed successfully.`);
+    } catch {
+      showMessage("Error deleting employee");
     }
   };
 
-  // ✅ Save Attendance to Backend
+  // ✅ Save Attendance
   const handleStatusChange = async (name, status) => {
     if (!selectedDate) {
-      Swal.fire("Warning", "Please select a date first!", "warning");
+      showMessage("Select a date first!");
       return;
     }
 
-    const updatedData = { ...attendanceData };
-    if (!updatedData[selectedDate]) updatedData[selectedDate] = {};
-    updatedData[selectedDate][name] = {
+    const updated = { ...attendanceData };
+    if (!updated[selectedDate]) updated[selectedDate] = {};
+    updated[selectedDate][name] = {
       status,
-      reason:
-        status === "Present"
-          ? ""
-          : updatedData[selectedDate][name]?.reason || "",
+      reason: status === "Present" ? "" : updated[selectedDate][name]?.reason || "",
     };
-    setAttendanceData(updatedData);
+    setAttendanceData(updated);
 
     try {
       await fetch(`${BASE_URL}/api/attendance/save`, {
@@ -183,26 +159,23 @@ const Attendance = () => {
           date: selectedDate,
           employee: name,
           status,
-          reason:
-            status === "Present"
-              ? ""
-              : updatedData[selectedDate][name]?.reason || "",
+          reason: updated[selectedDate][name]?.reason || "",
         }),
       });
-      Swal.fire("Saved!", `${name}'s attendance updated.`, "success");
-    } catch (err) {
-      Swal.fire("Error", "Error saving attendance", "error");
+      showMessage(`${name}'s attendance updated.`);
+    } catch {
+      showMessage("Error saving attendance");
     }
   };
 
   const handleReasonChange = async (name, reason) => {
-    const updatedData = { ...attendanceData };
-    if (!updatedData[selectedDate]) updatedData[selectedDate] = {};
-    updatedData[selectedDate][name] = {
-      ...updatedData[selectedDate][name],
+    const updated = { ...attendanceData };
+    if (!updated[selectedDate]) updated[selectedDate] = {};
+    updated[selectedDate][name] = {
+      ...updated[selectedDate][name],
       reason,
     };
-    setAttendanceData(updatedData);
+    setAttendanceData(updated);
 
     try {
       await fetch(`${BASE_URL}/api/attendance/save`, {
@@ -211,47 +184,40 @@ const Attendance = () => {
         body: JSON.stringify({
           date: selectedDate,
           employee: name,
-          status: updatedData[selectedDate][name]?.status || "",
+          status: updated[selectedDate][name]?.status || "",
           reason,
         }),
       });
-      Swal.fire("Updated!", "Reason updated successfully.", "success");
-    } catch (err) {
-      Swal.fire("Error", "Error updating reason", "error");
+      showMessage("Reason updated successfully.");
+    } catch {
+      showMessage("Error updating reason");
     }
   };
 
   // ✅ Date Restriction
   const today = new Date().toISOString().split("T")[0];
   const handleDateChange = (e) => {
-    const dateValue = e.target.value;
-    if (dateValue > today) {
-      Swal.fire("Warning", "You cannot select a future date!", "warning");
+    const v = e.target.value;
+    if (v > today) {
+      showMessage("Cannot select a future date!");
       return;
     }
-    setSelectedDate(dateValue);
+    setSelectedDate(v);
   };
 
-  // ✅ Count Summary
+  // ✅ Summary
   const getSummary = (dayData) => {
-    const summary = {
-      Present: 0,
-      Absent: 0,
-      Training: 0,
-      "Half Day": 0,
-      Holiday: 0,
-    };
-    Object.values(dayData || {}).forEach((rec) => {
-      if (rec.status && summary[rec.status] !== undefined)
-        summary[rec.status]++;
+    const s = { Present: 0, Absent: 0, Training: 0, "Half Day": 0, Holiday: 0 };
+    Object.values(dayData || {}).forEach((r) => {
+      if (r.status && s[r.status] !== undefined) s[r.status]++;
     });
-    return summary;
+    return s;
   };
 
-  // ✅ Excel Export (includes summary)
+  // ✅ Excel Export
   const downloadExcel = (type) => {
     if (Object.keys(attendanceData).length === 0) {
-      Swal.fire("Info", "No attendance data available!", "info");
+      showMessage("No attendance data available!");
       return;
     }
 
@@ -286,7 +252,7 @@ const Attendance = () => {
     });
 
     if (rows.length === 0) {
-      Swal.fire("Info", `No ${type} data found for selected date.`, "info");
+      showMessage(`No ${type} data found for selected date.`);
       return;
     }
 
@@ -305,98 +271,67 @@ const Attendance = () => {
       fileName
     );
 
-    Swal.fire("Success", `${type} Excel downloaded successfully!`, "success");
+    showMessage(`${type} Excel downloaded successfully!`);
   };
 
-  // ✅ Print (includes summary)
+  // ✅ Print
   const handlePrint = () => {
     if (!selectedDate) {
-      Swal.fire("Warning", "Select a date first!", "warning");
+      showMessage("Select a date first!");
       return;
     }
 
-    const currentDayData = attendanceData[selectedDate] || {};
-    const summary = getSummary(currentDayData);
+    const currentDay = attendanceData[selectedDate] || {};
+    const summary = getSummary(currentDay);
 
     const printableHTML = `
       <html>
         <head>
           <title>Attendance - ${selectedDate}</title>
           <style>
-            body { font-family: Arial, sans-serif; padding: 20px; }
-            h2 { text-align: center; }
+            body { font-family: Arial; padding: 20px; }
             table { width: 100%; border-collapse: collapse; margin-top: 20px; }
             th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-            .summary-table { margin-top: 30px; border-top: 2px solid #333; }
           </style>
         </head>
         <body>
-          <h2>Attendance Report for ${selectedDate}</h2>
+          <h2>Attendance Report - ${selectedDate}</h2>
           <table>
             <thead>
-              <tr>
-                <th>Employee Name</th>
-                <th>Status</th>
-                <th>Reason</th>
-              </tr>
+              <tr><th>Employee</th><th>Status</th><th>Reason</th></tr>
             </thead>
             <tbody>
               ${employees
                 .map((name) => {
-                  const record = currentDayData[name] || {};
-                  return `<tr>
-                    <td>${name}</td>
-                    <td>${record.status || "-"}</td>
-                    <td>${record.reason || "-"}</td>
-                  </tr>`;
+                  const rec = currentDay[name] || {};
+                  return `<tr><td>${name}</td><td>${rec.status || "-"} </td><td>${rec.reason || "-"}</td></tr>`;
                 })
                 .join("")}
             </tbody>
           </table>
-
           <h3>Summary</h3>
-          <table class="summary-table">
-            <tr>
-              <th>Present</th>
-              <th>Absent</th>
-              <th>Training</th>
-              <th>Half Day</th>
-              <th>Holiday</th>
-            </tr>
-            <tr>
-              <td>${summary.Present}</td>
-              <td>${summary.Absent}</td>
-              <td>${summary.Training}</td>
-              <td>${summary["Half Day"]}</td>
-              <td>${summary.Holiday}</td>
-            </tr>
-          </table>
+          <p>Present: ${summary.Present} | Absent: ${summary.Absent} | Training: ${summary.Training} | Half Day: ${summary["Half Day"]} | Holiday: ${summary.Holiday}</p>
         </body>
-      </html>
-    `;
-
-    const printWindow = window.open("", "_blank");
-    printWindow.document.write(printableHTML);
-    printWindow.document.close();
-    printWindow.print();
+      </html>`;
+    const w = window.open("", "_blank");
+    w.document.write(printableHTML);
+    w.document.close();
+    w.print();
   };
 
   const statusOptions = ["Present", "Absent", "Training", "Half Day", "Holiday"];
-  const currentDayData = selectedDate ? attendanceData[selectedDate] || {} : {};
-  const summaryData = getSummary(currentDayData);
+  const currentDay = selectedDate ? attendanceData[selectedDate] || {} : {};
+  const summary = getSummary(currentDay);
 
   return (
     <div className="attendance-container">
       <h2>Employee Attendance Management</h2>
 
+      {message && <div className="message-bar">{message}</div>}
+
       <div className="date-picker">
         <label>Select Date: </label>
-        <input
-          type="date"
-          max={today}
-          value={selectedDate}
-          onChange={handleDateChange}
-        />
+        <input type="date" max={today} value={selectedDate} onChange={handleDateChange} />
       </div>
 
       <div className="action-buttons">
@@ -418,68 +353,46 @@ const Attendance = () => {
       <table className="attendance-table">
         <thead>
           <tr>
-            <th>Employee Name</th>
+            <th>Employee</th>
             <th>Status</th>
-            <th>Reason (if applicable)</th>
+            <th>Reason</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
           {employees.length === 0 ? (
-            <tr>
-              <td colSpan="4" style={{ textAlign: "center" }}>
-                No employees added yet
-              </td>
-            </tr>
+            <tr><td colSpan="4" align="center">No employees</td></tr>
           ) : (
-            employees.map((name, index) => {
-              const record = currentDayData[name] || {};
+            employees.map((n, i) => {
+              const rec = currentDay[n] || {};
               return (
-                <tr key={index}>
-                  <td>{name}</td>
+                <tr key={i}>
+                  <td>{n}</td>
                   <td>
                     <select
-                      value={record.status || ""}
-                      onChange={(e) =>
-                        handleStatusChange(name, e.target.value)
-                      }
+                      value={rec.status || ""}
+                      onChange={(e) => handleStatusChange(n, e.target.value)}
                       disabled={!selectedDate}
                     >
                       <option value="">Select</option>
-                      {statusOptions.map((status) => (
-                        <option key={status} value={status}>
-                          {status}
-                        </option>
+                      {statusOptions.map((s) => (
+                        <option key={s} value={s}>{s}</option>
                       ))}
                     </select>
                   </td>
                   <td>
-                    {["Absent", "Training", "Half Day", "Holiday"].includes(
-                      record.status
-                    ) && (
+                    {["Absent", "Training", "Half Day", "Holiday"].includes(rec.status) && (
                       <input
                         type="text"
+                        value={rec.reason || ""}
                         placeholder="Enter reason"
-                        value={record.reason || ""}
-                        onChange={(e) =>
-                          handleReasonChange(name, e.target.value)
-                        }
+                        onChange={(e) => handleReasonChange(n, e.target.value)}
                       />
                     )}
                   </td>
                   <td>
-                    <button
-                      className="edit-btn"
-                      onClick={() => handleEditEmployee(name)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleDeleteEmployee(name)}
-                    >
-                      Delete
-                    </button>
+                    <button className="edit-btn" onClick={() => handleEditEmployee(n)}>Edit</button>
+                    <button className="delete-btn" onClick={() => handleDeleteEmployee(n)}>Delete</button>
                   </td>
                 </tr>
               );
@@ -492,11 +405,9 @@ const Attendance = () => {
         <div className="summary">
           <h3>Summary for {selectedDate}</h3>
           <p>
-            Present: <b>{summaryData.Present}</b> | Absent:{" "}
-            <b>{summaryData.Absent}</b> | Training:{" "}
-            <b>{summaryData.Training}</b> | Half Day:{" "}
-            <b>{summaryData["Half Day"]}</b> | Holiday:{" "}
-            <b>{summaryData.Holiday}</b>
+            Present: <b>{summary.Present}</b> | Absent: <b>{summary.Absent}</b> | Training:{" "}
+            <b>{summary.Training}</b> | Half Day: <b>{summary["Half Day"]}</b> | Holiday:{" "}
+            <b>{summary.Holiday}</b>
           </p>
         </div>
       )}
