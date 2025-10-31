@@ -1,318 +1,163 @@
 /* ===================================================== */
-/* ATTENDANCE SYSTEM STYLING (RESPONSIVE VERSION)        */
+/* ATTENDANCE SYSTEM - SIMPLE VERSION                    */
 /* ===================================================== */
 
-/* Base Container */
 .attendance-container {
   width: 90%;
   max-width: 900px;
   margin: 30px auto;
   padding: 25px;
-  background: linear-gradient(135deg, #f9fafc 0%, #eef2f7 100%);
-  border-radius: 16px;
-  box-shadow: 
-    0 4px 20px rgba(0,0,0,0.1),
-    0 0 0 1px rgba(255,255,255,0.8);
-  animation: containerSlideIn 0.6s ease-out;
-  position: relative;
-  overflow: hidden;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.attendance-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-  animation: shimmer 3s infinite;
-}
-
-/* Animations */
-@keyframes containerSlideIn {
-  0% { opacity: 0; transform: translateY(30px) scale(0.95); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes shimmer {
-  0% { left: -100%; }
-  100% { left: 100%; }
-}
-
+/* Title */
 h2 {
   text-align: center;
   margin-bottom: 20px;
   color: #2c3e50;
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-weight: 700;
-  animation: titleFadeIn 0.8s ease-out 0.2s both;
-  position: relative;
-}
-
-h2::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, #1976d2, #4CAF50);
-  border-radius: 2px;
-  animation: underlineExpand 0.6s ease-out 0.8s both;
-}
-
-@keyframes titleFadeIn {
-  0% { opacity: 0; transform: translateY(-20px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes underlineExpand {
-  0% { width: 0; opacity: 0; }
-  100% { width: 60px; opacity: 1; }
+  border-bottom: 3px solid #1976d2;
+  display: inline-block;
+  padding-bottom: 5px;
 }
 
 /* Date Picker */
 .date-picker {
   text-align: center;
   margin-bottom: 20px;
-  animation: fadeInUp 0.6s ease-out 0.3s both;
 }
 
 .date-picker input {
   padding: 10px 15px;
-  border-radius: 8px;
-  border: 2px solid #e1e8ed;
+  border-radius: 6px;
+  border: 1px solid #ccc;
   font-size: 1rem;
-  transition: all 0.3s ease;
-  background: white;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  background: #fff;
 }
 
 .date-picker input:focus {
   outline: none;
   border-color: #1976d2;
-  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
-  transform: translateY(-2px);
 }
 
 /* Buttons */
 .action-buttons {
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 10px;
   margin-bottom: 25px;
-  animation: fadeInUp 0.6s ease-out 0.4s both;
 }
 
 .action-buttons button {
-  padding: 10px 20px;
+  padding: 10px 18px;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
-  background: linear-gradient(135deg, #1976d2, #1565c0);
+  background-color: #1976d2;
   color: white;
   font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(25, 118, 210, 0.3);
-  position: relative;
-  overflow: hidden;
+  transition: 0.3s;
 }
 
-.action-buttons button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-  transition: left 0.5s;
-}
-
-.action-buttons button:hover::before { left: 100%; }
 .action-buttons button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(25, 118, 210, 0.4);
-  background: linear-gradient(135deg, #1565c0, #0d47a1);
-}
-
-.action-buttons button:active {
-  transform: translateY(-1px);
-  box-shadow: 0 3px 15px rgba(25, 118, 210, 0.4);
+  background-color: #0d47a1;
 }
 
 /* Add Employee Section */
 .add-employee {
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin-bottom: 30px;
-  animation: fadeInUp 0.6s ease-out 0.5s both;
+  gap: 10px;
+  margin-bottom: 25px;
 }
 
 .add-employee input {
-  padding: 12px 16px;
+  padding: 10px 15px;
   width: 60%;
-  border-radius: 8px;
-  border: 2px solid #e1e8ed;
+  border-radius: 6px;
+  border: 1px solid #ccc;
   font-size: 1rem;
-  transition: all 0.3s ease;
-  background: white;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  background: #fff;
 }
 
 .add-employee input:focus {
   outline: none;
   border-color: #4CAF50;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
-  transform: translateY(-2px);
 }
 
 .add-employee button {
-  padding: 12px 24px;
-  background: linear-gradient(135deg, #4CAF50, #45a049);
+  padding: 10px 20px;
+  background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-  position: relative;
-  overflow: hidden;
+  transition: 0.3s;
 }
 
-.add-employee button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-  transition: left 0.5s;
-}
-
-.add-employee button:hover::before { left: 100%; }
 .add-employee button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-  background: linear-gradient(135deg, #45a049, #3d8b40);
+  background-color: #3d8b40;
 }
 
 /* Table Styling */
 .attendance-table-container {
   max-height: 400px;
   overflow-y: auto;
-  border-radius: 12px;
+  border-radius: 10px;
   margin: 20px 0;
 }
 
 .attendance-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 20px 0;
-  animation: tableSlideIn 0.7s ease-out 0.6s both;
   background: white;
-  border-radius: 12px;
+  border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-}
-
-@keyframes tableSlideIn {
-  0% { opacity: 0; transform: translateX(-30px); }
-  100% { opacity: 1; transform: translateX(0); }
 }
 
 .attendance-table th {
-  background: linear-gradient(135deg, #2c3e50, #34495e);
+  background-color: #2c3e50;
   color: white;
-  padding: 15px 10px;
+  padding: 12px 8px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .attendance-table td {
-  padding: 12px 10px;
-  border-bottom: 1px solid #ecf0f1;
+  padding: 10px 8px;
+  border-bottom: 1px solid #eee;
   text-align: center;
-  transition: all 0.3s ease;
 }
 
-.attendance-table tr:nth-child(even) { background-color: #f8f9fa; }
+.attendance-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
 .attendance-table tr:hover {
-  background-color: #e3f2fd;
-  transform: scale(1.01);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  background-color: #f1f1f1;
 }
 
-.attendance-table select, .attendance-table input {
+.attendance-table select,
+.attendance-table input {
   padding: 8px 10px;
   width: 90%;
-  border: 2px solid #e1e8ed;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   font-size: 0.95rem;
+  background: #fff;
 }
 
-.attendance-table select:focus, .attendance-table input:focus {
+.attendance-table select:focus,
+.attendance-table input:focus {
   outline: none;
   border-color: #1976d2;
-  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
-  transform: scale(1.02);
 }
 
-/* Delete Button */
-.delete-btn {
-  background: linear-gradient(135deg, #f44336, #d32f2f);
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 3px 10px rgba(244, 67, 54, 0.3);
-  position: relative;
-  overflow: hidden;
-}
-
-/* Summary */
-.summary {
-  margin-top: 30px;
-  background: linear-gradient(135deg, #ffffff, #f8f9fa);
-  border-radius: 12px;
-  padding: 20px 25px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-  animation: summarySlideUp 0.7s ease-out 0.8s both;
-  border-left: 4px solid #1976d2;
-}
-
-/* Responsive Media Queries */
-@media (max-width: 1024px) {
-  .attendance-container { width: 95%; padding: 20px; }
-}
-
-@media (max-width: 768px) {
-  .attendance-container { width: 95%; margin: 15px auto; padding: 15px; }
-  h2 { font-size: 1.8rem; }
-  .action-buttons, .add-employee { flex-direction: column; align-items: center; }
-  .add-employee input { width: 100%; margin-bottom: 10px; }
-  .attendance-table { font-size: 0.9rem; }
-  .attendance-table th, .attendance-table td { padding: 10px 6px; }
-}
-
-@media (max-width: 480px) {
-  h2 { font-size: 1.5rem; }
-  .add-employee input { width: 100%; font-size: 0.9rem; }
-  .add-employee button, .action-buttons button { width: 100%; font-size: 0.9rem; padding: 10px; }
-  .attendance-table select, .attendance-table input { font-size: 0.85rem; }
-  .attendance-table-container { max-height: 300px; }
-}
+/* Edit and Delete Buttons */
 .edit-btn {
   background-color: #2196f3;
   color: white;
@@ -323,6 +168,51 @@ h2::after {
   transition: 0.3s;
   margin-right: 8px;
 }
+
 .edit-btn:hover {
   background-color: #0b7dda;
+}
+
+.delete-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.delete-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* Summary Section */
+.summary {
+  margin-top: 25px;
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 20px;
+  border-left: 4px solid #1976d2;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+  .attendance-container { width: 95%; padding: 15px; }
+  h2 { font-size: 1.6rem; }
+  .action-buttons, .add-employee { flex-direction: column; align-items: center; }
+  .add-employee input { width: 100%; }
+  .attendance-table th, .attendance-table td { padding: 8px 5px; }
+}
+
+@media (max-width: 480px) {
+  h2 { font-size: 1.4rem; }
+  .add-employee input, .add-employee button, .action-buttons button {
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+  .attendance-table-container { max-height: 300px; }
 }
